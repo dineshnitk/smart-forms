@@ -98,7 +98,8 @@
           }
         });
         console.log("fields = " + fields);
-        url = 'https://8eupdg6gm2.execute-api.us-east-1.amazonaws.com/default/getRecommendationsFunc?type=' + type + '&fields=' + fields;
+        api_endpoint_url = 'https://8eupdg6gm2.execute-api.us-east-1.amazonaws.com/default/getRecommendationsFunc'
+        url = api_endpoint_url + '?type=' + type + '&fields=' + fields;
         console.log(url);
 
         $.getJSON(url, function(result) {
