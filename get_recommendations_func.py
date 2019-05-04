@@ -11,6 +11,9 @@ S3_BUCKET_NAME=os.environ.get("s3_bucket_name")
 REQUEST_TYPES_ENDPOINT=os.environ.get("request_type_endpoint")
 
 def get_recommendations_handler(event, context):
+    input_type = event['queryStringParameters']['type']
+    input_fields = event['queryStringParameters']['fields']
+
     input_list = input_fields.split(",")
 
     # Get list of all possible request types
