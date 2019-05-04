@@ -7,9 +7,9 @@ import awscli
 from flask import Flask, request, jsonify
 app = Flask(__name__)
 
-AWS_ACCESS_KEY_ID='AKIAW745M2C2P5PSHHG2'
-AWS_SECRET_ACCESS_KEY='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'
-S3_BUCKET_NAME='smart-request-tracker'
+AWS_ACCESS_KEY_ID=''
+AWS_SECRET_ACCESS_KEY=''
+S3_BUCKET_NAME=''
 
 @app.route("/api/recommendation")
 def recommendation_api():
