@@ -58,14 +58,13 @@ if max_len_rhs > 0 :
 #    rules_rhs = filter(lambda rule: len(rule.rhs) == max_len_rhs , rules_match)
     rules_rhs = filter(lambda rule: all(x in list(rule.lhs) for x in input_list) and len(rule.rhs) == max_len_rhs, rules)
     sorted_rules = sorted(rules_rhs, key=lambda rule: rule.lift, reverse = True)
+    print("Matching list of rules with rhs = " + max_len_rhs + " sorted by lift:")
+    for rule in sorted_rules:
+        print(rule)
     result = ','.join(sorted_rules[0].rhs)
+    print("Comma separated list of recommended fields :")
     print(result)
-    # return jsonify({
-    #     "result":result
-    # })
-#  return jsonify({
-#     "result":""
-# })
+
 
 end = time.time()
 print ("Time Taken (seconds):")
