@@ -5,13 +5,11 @@ import json
 from flask import Flask, session, render_template, request, redirect, url_for, jsonify
 app = Flask(__name__)
 app.config.from_object('config')
-# app.config.from_pyfile('application.cfg', silent=True)
 backend_url = app.config['BACKEND_URL']
 
 @app.route('/', methods=['GET', 'POST'])
 def index(error=None):
     if request.method == 'POST':
-
         res = requests.get(backend_url + '/smart/requesttypes')
         types_text=res.text.replace("[","").replace("]","").replace("\"","")
         types=list(types_text.split(","))
@@ -43,13 +41,6 @@ def index(error=None):
             return render_template('smartform.html', types=types,error=error)
     req = requests.get(backend_url + '/smart/requests')
     forms = json.loads(req.text)
-    # for form in forms :
-    #     print( "type = " + str(form['type']))
-    #     print( "id = " + str(form['id']))
-    #     for field in form['fields']:
-    #         print('\tname = ' + field['name'])
-    #         print('\tvalue = ' + field['value'])
-    #     print('######')
     return render_template('index.html',forms=forms)
 
 @app.route('/smartform', methods=['GET', 'POST'])

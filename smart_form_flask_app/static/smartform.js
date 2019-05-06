@@ -9,26 +9,24 @@ function showAlert(message) {
   $('#alertuser').show();
 }
 
-// function clear_form() {
-//   var typeObj = document.getElementById('typeInputState')
-//   if (typeObj.value != 'Select request type...') {
-//     $('#alertuser').hide()
-//   }
-//
-//   for (i = 1; i <= maxfieldId; i++) {
-//     remove_smartform_field(i);
-//   }
-//   maxfieldId = 1;
-// }
+function clear_form() {
+  var typeObj = document.getElementById('typeInputState')
+  if (typeObj.value != 'Select request type...') {
+    $('#alertuser').hide()
+  }
 
-$('#getrecommendations').on('click', function() {
+  for (i = 1; i <= maxfieldId; i++) {
+    remove_smartform_field(i);
+  }
+  maxfieldId = 1;
+}
+
+$('.btn').on('click', function() {
   console.log("Get recommendations clicked")
   var $this = $(this);
   $this.button('loading');
-  setTimeout(function() {
-    get_recommendations();
-    $this.button('reset');
-  }, 8000);
+  get_recommendations();
+  $this.button('reset');
 });
 
 function get_recommendations() {
@@ -89,15 +87,11 @@ function create_smartform_field(newfieldname) {
     '<input type="text" class="form-control" id="value" name="value[]" value="" placeholder="Enter value">' +
     '</div>' +
     '<div class="form-group col-md-2">' +
+    '<button class="btn btn-success" type="button" onclick="create_smartform_field(\'\');"> + </button>&nbsp' +
     '<button class="btn btn-danger" type="button" onclick="remove_smartform_field(' + maxfieldId + ');"> - </button>' +
     '</div>' +
     '</div>';
   objTo.appendChild(divtest)
-
-  // var obj = $('input[name="fieldname[]"]');
-  // $.each(obj, function(index, myelement) {
-  //   myelement.required = true;
-  // });
 }
 
 function remove_smartform_field(rid) {
