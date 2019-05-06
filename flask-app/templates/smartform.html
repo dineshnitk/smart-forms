@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Create smart form
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  {% if error is not none %}
+  <div class="alert alert-error" role="alert" id="errormsg">
+    {{ error }}
+  </div>
+  {% endif %}
+  <form action="{{ url_for('index') }}" method="post">
+    <div class="form-row">
+      <div class="form-group">
+        <select name="type" id="typeInputState" class="form-control" onchange="clear_form();" required>
+          <option selected disabled>Select request type...</option>
+          {%for type in types%}
+          <option>{{type}}</option>
+          {%endfor%}
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <input type="text" class="form-control" id="fieldname" name="fieldname[]" value="" placeholder="Enter field name" required>
+      </div>
+      <div class="form-group col-md-4">
+        <input type="text" class="form-control" id="value" name="value[]" value="" placeholder="Enter value">
+      </div>
+      <div class="form-group col-md-2">
+        <button class="btn btn-success" type="button" onclick="create_smartform_field('');"> + </button>
+      </div>
+    </div>
+
+    <div id="smartform_fields">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <!-- <button type="button" class="btn btn-info" onclick="get_recommendations();">Get Recommendations</button> -->
+        <button type="button" class="btn btn-info" id="getrecommendations" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Getting Recommendations">Get Recommendations</button>
+      </div>
+    </div>
+    <div id='alertuser' class='hide'></div>
+    <!-- <button type="button" class="btn btn-info" onclick="clear_form();">Clear</button> -->
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="{{ url_for('index') }}" class="btn btn-info active" role="button" aria-pressed="true">Cancel</a>
+  </form>
+</div>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='smartform.js') }}"></script>
+
+{% endblock %}
