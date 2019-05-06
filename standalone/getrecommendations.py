@@ -54,26 +54,25 @@ print()
 # FIlter rules where given fields exist in the lhs
 rules_match = filter(lambda rule: all(x in list(rule.lhs) for x in input_list), rules)
 
+# From filtered rules, find the max length of rhs
 print("List of all matching rules :\n")
+max_len_rhs=0
 for rule in rules_match :
     print(rule)
-
+    if(max_len_rhs < len(rule.rhs)):
+        max_len_rhs = len(rule.rhs)
+print()
+print('###################################')
+print()
+print('max len of rhs amongst all matching rules = ' + str(max_len_rhs))
 print()
 print('###################################')
 print()
 
-# From filtered rules, find the max length of rhs
-max_len_rhs=0
-for rule in rules_match:
-    if(max_len_rhs < len(rule.rhs)):
-        max_len_rhs = len(rule.rhs)
-print('max len of rhs amongst all matching rules = ' + str(max_len_rhs))
-
 if max_len_rhs > 0 :
-#    rules_rhs = filter(lambda rule: len(rule.rhs) == max_len_rhs , rules_match)
     rules_rhs = filter(lambda rule: all(x in list(rule.lhs) for x in input_list) and len(rule.rhs) == max_len_rhs, rules)
     sorted_rules = sorted(rules_rhs, key=lambda rule: rule.lift, reverse = True)
-    print("Matching list of rules with rhs = " + max_len_rhs + " sorted by lift:")
+    print("Matching list of rules with rhs = " + str(max_len_rhs) + " sorted by lift:")
     for rule in sorted_rules:
         print(rule)
     print()
@@ -85,5 +84,6 @@ if max_len_rhs > 0 :
 
 
 end = time.time()
+print()
 print ("Time Taken (seconds):")
 print (end - start)
