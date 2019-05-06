@@ -4,14 +4,15 @@ import json
 
 from flask import Flask, session, render_template, request, redirect, url_for, jsonify
 app = Flask(__name__)
-#app.run(debug=True,port=5000)
-endpoint_url = 'http://52.24.109.247:8050'
+app.config.from_object('config')
+# app.config.from_pyfile('application.cfg', silent=True)
+backend_url = app.config['BACKEND_URL']
 
 @app.route('/', methods=['GET', 'POST'])
 def index(error=None):
     if request.method == 'POST':
 
-        res = requests.get(endpoint_url + '/smart/requesttypes')
+        res = requests.get(backend_url + '/smart/requesttypes')
         types_text=res.text.replace("[","").replace("]","").replace("\"","")
         types=list(types_text.split(","))
 
@@ -35,12 +36,12 @@ def index(error=None):
             }
         print(json.dumps(smartform))
         headers = {"Content-Type" : "application/json"}
-        r = requests.post(endpoint_url + '/smart/request', data=json.dumps(smartform), headers=headers)
+        r = requests.post(backend_url + '/smart/request', data=json.dumps(smartform), headers=headers)
         if r.status_code != 200:
             print(r.text)
             error = "Error while saving this request. Please check your fields and try again."
             return render_template('smartform.html', types=types,error=error)
-    req = requests.get(endpoint_url + '/smart/requests')
+    req = requests.get(backend_url + '/smart/requests')
     forms = json.loads(req.text)
     # for form in forms :
     #     print( "type = " + str(form['type']))
@@ -53,7 +54,7 @@ def index(error=None):
 
 @app.route('/smartform', methods=['GET', 'POST'])
 def smartform():
-    res = requests.get(endpoint_url + '/smart/requesttypes')
+    res = requests.get(backend_url + '/smart/requesttypes')
     types_text=res.text.replace("[","").replace("]","").replace("\"","")
     types=list(types_text.split(","))
     print(types)
@@ -61,5 +62,5 @@ def smartform():
 
 @app.route('/deleteform/<id>', methods=['GET', 'POST'])
 def deleteform(id):
-    requests.delete(endpoint_url + '/smart/request/' + str(id))
+    requests.delete(backend_url + '/smart/request/' + str(id))
     return redirect(url_for('index'))
