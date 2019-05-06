@@ -40,12 +40,27 @@ file = open('/tmp/' + rulefilename, 'rb')
 rules = pickle.load(file)
 file.close()
 
+print()
+print('###################################')
+print()
+
+print("List of all rules :\n")
+for rule in rules :
+    print(rule)
+print()
+print('###################################')
+print()
+
 # FIlter rules where given fields exist in the lhs
 rules_match = filter(lambda rule: all(x in list(rule.lhs) for x in input_list), rules)
 
-print("List of all matching rules :")
+print("List of all matching rules :\n")
 for rule in rules_match :
     print(rule)
+
+print()
+print('###################################')
+print()
 
 # From filtered rules, find the max length of rhs
 max_len_rhs=0
@@ -61,6 +76,9 @@ if max_len_rhs > 0 :
     print("Matching list of rules with rhs = " + max_len_rhs + " sorted by lift:")
     for rule in sorted_rules:
         print(rule)
+    print()
+    print('###################################')
+    print()
     result = ','.join(sorted_rules[0].rhs)
     print("Comma separated list of recommended fields :")
     print(result)
