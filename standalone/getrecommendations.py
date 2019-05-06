@@ -5,19 +5,24 @@ import boto3
 import requests
 import pickle
 import time
+import configparser
 
 start = time.time()
 
-AWS_ACCESS_KEY_ID='AKIAW745M2C2P5PSHHG2'
-AWS_SECRET_ACCESS_KEY='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'
-S3_BUCKET_NAME='smart-request-tracker'
+configParser = configparser.RawConfigParser()
+configFilePath = r'./config.props'
+configParser.read(configFilePath)
+
+AWS_ACCESS_KEY_ID=configParser.get('PARAMS', 'AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY=configParser.get('PARAMS', 'AWS_SECRET_ACCESS_KEY')
+S3_BUCKET_NAME=configParser.get('PARAMS', 'S3_BUCKET_NAME')
 
 # http://54.213.20.229:5000/api/recommendation?type=CLINICTRIAL&fields=type
 # input_type=request.args.get('type')
 # input_fields=request.args.get('fields')
 # Use sample values for input type and fields
-input_type="CLINICTRIAL"
-input_fields="type"
+input_type=configParser.get('PARAMS', 'EX_INPUT_TYPE')
+input_fields=configParser.get('PARAMS', 'EX_INPUT_FIELDS')
 
 print('Getting recommendations for type = ' + input_type + " and fields = " + input_fields)
 
@@ -37,6 +42,10 @@ file.close()
 
 # FIlter rules where given fields exist in the lhs
 rules_match = filter(lambda rule: all(x in list(rule.lhs) for x in input_list), rules)
+
+print("List of all matching rules :")
+for rule in rules_match :
+    print(rule)
 
 # From filtered rules, find the max length of rhs
 max_len_rhs=0

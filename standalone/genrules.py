@@ -5,15 +5,19 @@ import boto3
 import requests
 import pickle
 import time
+import configparser
 
-AWS_ACCESS_KEY_ID=''
-AWS_SECRET_ACCESS_KEY=''
-S3_BUCKET_NAME=''
-BACKED_URL=''
-BACKED_ENDPOINT='/smart/fields'
-REQUEST_TYPES_ENDPOINT='/smart/requesttypes'
-MIN_SUPPORT=0.5
-MIN_CONFIDENCE=0.5
+configParser = configparser.RawConfigParser()
+configFilePath = r'./config.props'
+configParser.read(configFilePath)
+
+AWS_ACCESS_KEY_ID = configParser.get('PARAMS', 'AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = configParser.get('PARAMS', 'AWS_SECRET_ACCESS_KEY')
+S3_BUCKET_NAME = configParser.get('PARAMS', 'S3_BUCKET_NAME')
+SMART_FIELDS_ENDPOINT = configParser.get('PARAMS', 'BACKEND_URL') + configParser.get('PARAMS', 'SMART_FIELDS_ENDPOINT')
+REQUEST_TYPES_ENDPOINT = configParser.get('PARAMS', 'BACKEND_URL') + configParser.get('PARAMS', 'REQUEST_TYPES_ENDPOINT')
+MIN_SUPPORT = float(configParser.get('PARAMS', 'MIN_SUPPORT'))
+MIN_CONFIDENCE = float(configParser.get('PARAMS', 'MIN_CONFIDENCE'))
 
 # Capture start time
 start = time.time()
@@ -35,7 +39,7 @@ for type in types :
     print("Generating association rules for type = " + type)
 
     # Get all records for the given type
-    url=BACKED_ENDPOINT + '/' + type
+    url=SMART_FIELDS_ENDPOINT + '/' + type
     content=requests.get(url)
     content_json = json.loads(content.text)
     transactions = [tuple((i.split(','))) for i in content_json["fields"]]
@@ -55,7 +59,7 @@ for type in types :
 
 # Genrate rules for all types
 print("Generating association rules for all types ")
-url=BACKED_ENDPOINT
+url=SMART_FIELDS_ENDPOINT
 content=requests.get(url)
 content_json = json.loads(content.text)
 transactions = [tuple((i.split(','))) for i in content_json["fields"]]
@@ -72,11 +76,8 @@ file.close()
 # Upload rule file to s3
 client.upload_file('/tmp/' + filename, S3_BUCKET_NAME, filename)
 
-# Return succss
-return {
-    'statusCode': 200,
-    'body': json.dumps('Rules created/updated')
-}
+print("Rules created successfully")
+
 end = time.time()
 
 # Print time taken for generating all the rules

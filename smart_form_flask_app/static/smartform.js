@@ -1,7 +1,15 @@
-var maxfieldId = 1;
+var maxfieldId = 1
+
+// Dinesh AWS Account
 var api_endpoint_url = 'https://8a0e9lvnhk.execute-api.us-east-1.amazonaws.com/default/getRecommendationsFunc'
 
+// Dustin AWS acccount
+// var api_endpoint_url = 'https://8eupdg6gm2.execute-api.us-east-1.amazonaws.com/default/getRecommendationsFunc'
+
 $('#alertuser').hide()
+console.log('try hiding spinner')
+$('#myspinner').hide()
+$('recommendationbutton').prop('disabled', false)
 console.log('maxfieldId =' + maxfieldId)
 
 function showAlert(message) {
@@ -21,13 +29,13 @@ function clear_form() {
   maxfieldId = 1;
 }
 
-$('.btn').on('click', function() {
-  console.log("Get recommendations clicked")
-  var $this = $(this);
-  $this.button('loading');
-  get_recommendations();
-  $this.button('reset');
-});
+// $('.btn').on('click', function() {
+//   console.log("Get recommendations clicked")
+//   var $this = $(this);
+//   $this.button('loading');
+//   get_recommendations();
+//   $this.button('reset');
+// });
 
 function get_recommendations() {
   var typeObj = document.getElementById('typeInputState')
@@ -36,6 +44,8 @@ function get_recommendations() {
     return
   }
   $('#alertuser').hide()
+  $('#myspinner').show()
+  $('recommendationbutton').prop('disabled', true);
 
   type = typeObj.value;
   fields = 'type';
@@ -69,6 +79,8 @@ function get_recommendations() {
       }
     }
   })
+  $('recommendationbutton').prop('disabled', false);
+  $('#myspinner').hide()
 }
 
 function create_smartform_field(newfieldname) {

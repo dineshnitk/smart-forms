@@ -1,0 +1,4 @@
+efficient_apriori
+boto3
+requests
+configparser
