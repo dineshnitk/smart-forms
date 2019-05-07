@@ -6,11 +6,7 @@ var api_endpoint_url = 'https://8a0e9lvnhk.execute-api.us-east-1.amazonaws.com/d
 // Dustin AWS acccount
 // var api_endpoint_url = 'https://8eupdg6gm2.execute-api.us-east-1.amazonaws.com/default/getRecommendationsFunc'
 
-$('#alertuser').hide()
-console.log('try hiding spinner')
-$('#myspinner').hide()
-$('recommendationbutton').prop('disabled', false)
-console.log('maxfieldId =' + maxfieldId)
+document.getElementById("myspinner").style.visibility = "hidden";
 
 function showAlert(message) {
   $('#alertuser').html("<div class='alert alert-danger'>" + message + "</div>");
@@ -44,8 +40,8 @@ function get_recommendations() {
     return
   }
   $('#alertuser').hide()
-  $('#myspinner').show()
-  $('recommendationbutton').prop('disabled', true);
+  document.getElementById("myspinner").style.visibility = "visible";
+  $('#recommendationbutton').prop('disabled', true);
 
   type = typeObj.value;
   fields = 'type';
@@ -57,7 +53,6 @@ function get_recommendations() {
     }
   });
   console.log("fields = " + fields);
-  //api_endpoint_url = 'https://8eupdg6gm2.execute-api.us-east-1.amazonaws.com/default/getRecommendationsFunc'
   url = api_endpoint_url + '?type=' + type + '&fields=' + fields;
   console.log(url);
 
@@ -79,8 +74,8 @@ function get_recommendations() {
       }
     }
   })
-  $('recommendationbutton').prop('disabled', false);
-  $('#myspinner').hide()
+  $('#recommendationbutton').prop('disabled', false);
+  document.getElementById("myspinner").style.visibility = "hidden";
 }
 
 function create_smartform_field(newfieldname) {
