@@ -41,7 +41,7 @@ def gen_rules_handler(event, context):
 
         # Save rules in a local file
         filename=type + '.pkl'
-        file = open('/tmp/' + filename, 'ab')
+        file = open('/tmp/' + filename, 'wb')
         pickle.dump(rules, file)
         file.close()
 
@@ -61,7 +61,7 @@ def gen_rules_handler(event, context):
 
     # Save rules in a local file
     filename='rules.pkl'
-    file = open('/tmp/' + filename, 'ab')
+    file = open('/tmp/' + filename, 'wb')
     pickle.dump(rules, file)
     file.close()
 

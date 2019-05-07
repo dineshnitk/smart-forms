@@ -49,12 +49,15 @@ for type in types :
 
     # Save rules in a local file
     filename=type + '.pkl'
-    file = open('/tmp/' + filename, 'ab')
+    file = open('/tmp/' + filename, 'wb')
     pickle.dump(rules, file)
     file.close()
 
-    # Upload rule file to s3
+    print("List of rules for type = " + type)
+    for rule in rules :
+        print(rule)
 
+    # # Upload rule file to s3
     client.upload_file('/tmp/' + filename, S3_BUCKET_NAME, filename)
 
 # Genrate rules for all types
@@ -69,7 +72,7 @@ itemsets, rules = efficient_apriori.apriori(transactions, min_support=MIN_SUPPOR
 
 # Save rules in a local file
 filename='rules.pkl'
-file = open('/tmp/' + filename, 'ab')
+file = open('/tmp/' + filename, 'wb')
 pickle.dump(rules, file)
 file.close()
 
