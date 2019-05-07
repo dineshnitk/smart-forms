@@ -76,6 +76,10 @@ file = open('/tmp/' + filename, 'wb')
 pickle.dump(rules, file)
 file.close()
 
+print("List of rules for all types")
+for rule in rules :
+    print(rule)
+
 # Upload rule file to s3
 client.upload_file('/tmp/' + filename, S3_BUCKET_NAME, filename)
 
