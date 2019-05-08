@@ -39,8 +39,10 @@ def index(error=None):
             print(r.text)
             error = "Error while saving this request. Please check your fields and try again."
             return render_template('smartform.html', types=types,error=error)
+    forms = None
     req = requests.get(backend_url + '/smart/requests')
-    forms = json.loads(req.text)
+    if req.text != '[]' :
+        forms = json.loads(req.text)
     return render_template('index.html',forms=forms)
 
 @app.route('/smartform', methods=['GET', 'POST'])
